@@ -53,7 +53,7 @@ router.put('/updateUser/:username', async (request, response, next) =>{
 });
 
 router.put('/updateWorkout/:username', async (request, response, next) =>{
-    schemas.usersModel.updateOne({'username': request.params.username}, {$set: {workouts: req.body}},).then(() =>{
+    schemas.usersModel.updateOne({'username': request.params.username}, {$set: {workouts: request.body}},).then(() =>{
         response.status(200).send("it may work");
     }).catch((x) =>{
         response.status(409).send(x);
