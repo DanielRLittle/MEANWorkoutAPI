@@ -36,24 +36,28 @@ router.post('/create', async (req, res, next) => {
     }
 });
 
-router.put('updateUser/:username/:newUsername', async (req, res, next) => {
-    const check = await schemas.usersModel.findOne({ username: newUsername });
-    if (check) {
-        res.status(409).send({});
-    }
-    else {
-        try {
-            const { username, newUsername } = req.params;
-            return schemas.usersModel.findOneAndUpdate({ username: username }, { $set: { username: newUsername } }).then((user) => {
-                return schemas.usersModel.findOne({ username: newUsername }).then((updatedUser) => {
-                    return res.send(updatedUser), console.log("returned", updatedUser);
-                })
+router.put('/updateUser/:username/:newUsername', async (request, response, next) =>{
+    schemas.usersModel.findOneAndUpdate({'username': request.params.username}, {'username': request.params.newUsername},).then(() =>{
+        response.status(200).send("it might work");
+    }).catch((x) =>{
+        response.status(409).send(x);
+    }).catch(next);
+});
 
-            });
-        } catch (exception) {
-            return next({ message: exception.message });
-        }
-    }
+router.put('/updateUser/:username', async (request, response, next) =>{
+    schemas.usersModel.updateOne({'username': request.params.username}, request.body,).then(() =>{
+        response.status(200).send("it works!");
+    }).catch((x) =>{
+        response.status(409).send(x);
+    }).catch(next);
+});
+
+router.put('/updateWorkout/:username', async (request, response, next) =>{
+    schemas.usersModel.updateOne({'username': request.params.username}, {$set: {workouts: req.body}},).then(() =>{
+        response.status(200).send("it may work");
+    }).catch((x) =>{
+        response.status(409).send(x);
+    }).catch(next);
 });
 
 router.delete('/delete', (req, res, next) => {
