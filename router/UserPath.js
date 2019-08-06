@@ -69,13 +69,25 @@ router.delete('/delete', (req, res, next) => {
             return;
         }
     });
-})
+});
 
 function createWorkout() {
     router.post('/createWorkout')
 }
 
-router.post('/createWorkout', async ())
+router.post('/createWorkout/:username', async (request, response, next) => {
+    schemas.usersModel.findOne({'username': request.params.username});
+    const newWorkout = new schemas.workoutsModel(request.body).then(() => {
+        return newWorkout.save().then((x) => {
+        router.put('/createWorkout/:username', async (req, res, nex) => {
+            schemas.usersModel.updateOne({ 'username': req.params.username}, {$set: {workouts: workouts + x.workoutNumber}}).then(
+                doc => res.status(201).send(doc),
+                error => next(error)
+            );
+            });
+        });
+    });
+});
 
 router.put('/updateWorkout/:username', async (request, response, next) => {
     schemas.usersModel.updateOne({ 'username': request.params.username }, request.body).then(() => {
