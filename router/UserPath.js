@@ -71,22 +71,33 @@ router.delete('/delete', (req, res, next) => {
     });
 });
 
-function createWorkout() {
-    router.post('/createWorkout')
-}
+// router.post('/createWorkout/:username', async (request, response, next) => {
+//     schemas.usersModel.findOne({'username': request.params.username});
+//     const newWorkout = new schemas.workoutsModel(request.body).then(() => {
+//         return newWorkout.save().then((x) => {
+//         router.put('/createWorkout/:username', async (req, res, nex) => {
+//             schemas.usersModel.updateOne({ 'username': req.params.username}, {$set: {workouts: workouts + x.workoutNumber}}).then(
+//                 doc => res.status(201).send(doc),
+//                 error => next(error)
+//             );
+//             });
+//         });
+//     });
+// });
 
-router.post('/createWorkout/:username', async (request, response, next) => {
-    schemas.usersModel.findOne({'username': request.params.username});
-    const newWorkout = new schemas.workoutsModel(request.body).then(() => {
-        return newWorkout.save().then((x) => {
-        router.put('/createWorkout/:username', async (req, res, nex) => {
-            schemas.usersModel.updateOne({ 'username': req.params.username}, {$set: {workouts: workouts + x.workoutNumber}}).then(
-                doc => res.status(201).send(doc),
-                error => next(error)
-            );
-            });
-        });
-    });
+router.post('/createWorkout', async (request, response, next) => {
+    const newWorkout = new schemas.workoutsModel(request.body);
+    return newWorkout.save().then(
+        doc => response.status(201).send(doc),
+        error => next(error));
+});
+
+router.get('/workout/:workoutNumber', (request, response) => {
+    return schemas.workoutsModel.findOne({'workoutNumber': request.params.workoutNumber}).then((x) => {
+        console.log(x);
+        response.send(x);
+    }
+    );
 });
 
 router.put('/updateWorkout/:username', async (request, response, next) => {

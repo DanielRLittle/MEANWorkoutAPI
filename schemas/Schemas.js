@@ -8,8 +8,7 @@ exports.usersSchema = new mongoose.Schema({
     workouts:[
         {
             workoutNumber: {
-                type: Number,
-                unique: true
+                type: Number
             }
         }
     ]
@@ -23,14 +22,11 @@ exports.workoutsSchema = new mongoose.Schema({
     },
     workoutName: String,
     workoutDate: Date,
-    exercises: [
-        {
-            exerciseNumber: {
-                type: Number,
-                unique: true
-            }
+    exercises: [{
+        exerciseNumber: {
+            type: Number
         }
-    ]
+    }]
 });
 
 exports.exerciseSchema = new mongoose.Schema({
@@ -41,7 +37,8 @@ exports.exerciseSchema = new mongoose.Schema({
     },
     exerciseName: {
         type: String,
-        unique: true
+        unique: true,
+        required: true
     }
 });
 
