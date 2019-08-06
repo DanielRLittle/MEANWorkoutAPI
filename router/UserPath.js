@@ -36,26 +36,18 @@ router.post('/create', async (req, res, next) => {
     }
 });
 
-router.put('/updateUser/:username/:newUsername', async (request, response, next) =>{
-    schemas.usersModel.findOneAndUpdate({'username': request.params.username}, {'username': request.params.newUsername},).then(() =>{
+router.put('/updateUser/:username/:newUsername', async (request, response, next) => {
+    schemas.usersModel.findOneAndUpdate({ 'username': request.params.username }, { 'username': request.params.newUsername }).then(() => {
         response.status(200).send("it might work");
-    }).catch((x) =>{
+    }).catch((x) => {
         response.status(409).send(x);
     }).catch(next);
 });
 
-router.put('/updateUser/:username', async (request, response, next) =>{
-    schemas.usersModel.updateOne({'username': request.params.username}, request.body,).then(() =>{
+router.put('/updateUser/:username', async (request, response, next) => {
+    schemas.usersModel.updateOne({ 'username': request.params.username }, request.body).then(() => {
         response.status(200).send("it works!");
-    }).catch((x) =>{
-        response.status(409).send(x);
-    }).catch(next);
-});
-
-router.put('/updateWorkout/:username', async (request, response, next) =>{
-    schemas.usersModel.updateOne({'username': request.params.username}, {$set: {workouts: request.body}},).then(() =>{
-        response.status(200).send("it may work");
-    }).catch((x) =>{
+    }).catch((x) => {
         response.status(409).send(x);
     }).catch(next);
 });
@@ -78,5 +70,19 @@ router.delete('/delete', (req, res, next) => {
         }
     });
 })
+
+function createWorkout() {
+    router.post('/createWorkout')
+}
+
+router.post('/createWorkout', async ())
+
+router.put('/updateWorkout/:username', async (request, response, next) => {
+    schemas.usersModel.updateOne({ 'username': request.params.username }, request.body).then(() => {
+        response.status(200).send("it may work");
+    }).catch((x) => {
+        response.status(409).send(x);
+    }).catch(next);
+});
 
 module.exports = router;

@@ -7,22 +7,52 @@ exports.usersSchema = new mongoose.Schema({
     age: Number,
     workouts:[
         {
-            workoutName: String,
-            date: Date
-            // exercises: [{
-            //     exercise: Exercise,
-            // }]
+            workoutNumber: {
+                type: Number,
+                unique: true
+            }
+        }
+    ]
+});
+
+exports.workoutsSchema = new mongoose.Schema({
+    workoutNumber: {
+        type: Number,
+        unique: true,
+        required: true
+    },
+    workoutName: String,
+    workoutDate: Date,
+    exercises: [
+        {
+            exerciseNumber: {
+                type: Number,
+                unique: true
+            }
         }
     ]
 });
 
 exports.exerciseSchema = new mongoose.Schema({
-    exerciseName: String
+    exerciseNumber: {
+        type: Number,
+        unique: true,
+        required: true
+    },
+    exerciseName: {
+        type: String,
+        unique: true
+    }
 });
 
 exports.usersModel = mongoose.model(
     'users',
     this.usersSchema
+);
+
+exports.workoutsModel = mongoose.model(
+    'workouts',
+    this.workoutsSchema
 );
 
 exports.exerciseModel = mongoose.model(
