@@ -8,7 +8,7 @@ exports.usersSchema = new mongoose.Schema({
     workouts:[
         {
             workoutName: String,
-            date: Date,
+            date: Date
             // exercises: [{
             //     exercise: Exercise,
             // }]
